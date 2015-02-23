@@ -15,7 +15,7 @@
   <h1>Простой калькулятор</h1>
   <p>Введите числа в поля и выберите операци. Чтобы получить ответ, нажмите на "Рассчитать"</p>
   <br>
-  <form action="/calculator.jsp" method="post">
+  <form action="/calculator" method="get">
       <table>
           <tr>
               <td><label for="n1-field">Введите первое число</label></td>

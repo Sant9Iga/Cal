@@ -1,5 +1,6 @@
 package logic;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,18 +13,14 @@ import java.io.PrintWriter;
  */
 public class CalculatorServlet extends HttpServlet{
     @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
-
-        PrintWriter pw = resp.getWriter();
-        pw.println("<html>\n" +
-                "<head>\n" +
-                "    <title>Ваш ответ</title>\n" +
-                "    <link rel=\"stylesheet\" href=\"forIndex.css\" type=\"text/css\">\n" +
-                "</head>\n" +
-                "<body>\n" +
-                "<h2>");
+        StringBuilder sb = new StringBuilder();
         try{
             String s1 = req.getParameter("n1");
             String s2 = req.getParameter("n2");
@@ -48,7 +45,7 @@ public class CalculatorServlet extends HttpServlet{
                     op = " * ";
                     break;
                 case 4:
-                    if (d2==0) pw.println("Вообще на 0 делить нельзя, но мы-то знаем," +
+                    if (d2==0) sb.append("Вообще на 0 делить нельзя, но мы-то знаем," +
                             " что будет если всё-таки попробовать:<br>");
 
                     res = d1 / d2;
@@ -56,18 +53,16 @@ public class CalculatorServlet extends HttpServlet{
                     break;
             }
             String output = d1 + op + d2 + " = " + res;
-            pw.println("Ваш результат " + output + "<br>");
-            pw.println("Здорово, правда?! :)<br>");
-            pw.println("<a href=\"/index.jsp\">Может попробовать снова, а?</a>");
+            sb.append("Ваш результат " + output + "<br>");
         } catch (NumberFormatException e){
-            pw.println("Неверно введены значения, чтобы получить результат," +
-                    "необходимо <a href=\"/index.jsp\">вернуться</a> и заполнить данные заново.");
+            sb.append("Неверно введены значения, чтобы получить результат," +
+                    "необходимо заполнить данные заново.");
         } catch (NullPointerException e) {
-            pw.println("Одно из значений не было введено, чтобы получить результат," +
-                    " необходимо <a href=\"/index.jsp\">вернуться</a> и заполнить данные заново.");
+            sb.append("Одно из значений не было введено, чтобы получить результат," +
+                    " необходимо заполнить данные заново.");
         }
-        pw.println("</h2>\n" +
-                "</body>\n" +
-                "</html>");
+        req.setAttribute("attribute", sb.toString());
+        RequestDispatcher disp = req.getRequestDispatcher("/index.jsp");
+        disp.forward(req, resp);
     }
 }

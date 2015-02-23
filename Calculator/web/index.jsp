@@ -41,5 +41,9 @@
           </tr>
       </table>
   </form>
+  <%
+      String s = (String)request.getAttribute("attribute");
+  %>
+  <%= s!=null ? s : ""%><br>
   </body>
 </html>

@@ -1,0 +1,22 @@
+body{
+    padding-bottom: 10%;
+    text-align: center;
+}
+h1{
+    padding: 5%;
+}
+h2{
+    padding: 10%;
+}
+table{
+    margin: auto;
+}
+td{
+    text-align: center;
+}
+select {
+    width: 100px;
+    padding-left: 40px;
+
+}
+
